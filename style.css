@@ -1,8 +1,5 @@
-body {
+:root {
     --light: #fdfad8;
-    /* --dark: #2a2967; */
-    /* --dark: #293267; */
-    --dark: #262249;
     --transp: #fdfad8a6;
     --red: #e31d28;
     --orange: #ed8c3d;
@@ -13,16 +10,30 @@ body {
     background: #fdfad8;
     overflow: hidden;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: var(--dark);
-}
+    color: var(--purple);
+    font-size: .8rem; }
+    @media (min-width: 576px) {
+        :root {
+            font-size: 1rem; } }
+    @media (min-width: 1800px) {
+        :root {
+            font-size: 1.5rem; } }
+main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    min-height: 98vh;
+    width: 100%; }
 
-main.container {
-    min-height: calc(100vh - 4.5rem);
-    width: 100%;
-    padding-right: .5rem;
-    padding-left: .5rem;
-    margin-right: auto;
-    margin-left: auto; }
+div.container {
+    flex: 0 0 100%;
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: space-between;
+    align-items: center; }
     @media (min-width: 576px) {
         .container {
         max-width: 540px; } }
@@ -39,58 +50,68 @@ main.container {
         .container {
         max-width: 1680px; } }
 
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -.5rem;
-    margin-left: -.5rem;
-    /* justify-content: center; */
-    align-items: flex-start;
-    padding-top: 1rem;
-}
-
 h1 {
-    font-weight: 400;
     flex: 0 0 100%;
-    z-index: 2;
-    /* align-self: flex-start; */
-    background: var(--transp);
-}
-
-.ready {
-    cursor: url('img/bow-and-arrow-black-th.png'), ne-resize;
-}
-.wait {
-    cursor: progress;
-}
+    align-self: flex-start;
+    justify-content: start;
+    z-index: 3;
+    font-weight: 400;
+    background: var(--transp); }
 
 #rainbow {
-    z-index: 1;
-}
-
-div.arc {
-    z-index: 1;
-}
-
-#display {
     flex: 0 0 100%;
-    z-index: 3;
-    padding: .5rem;
-    width: 10rem;
-    background: var(--dark);
+    z-index: 2;
+    width: 90vmin; }
+
+div.circle {
+    z-index: 1; }
+
+div#display {
+    flex: 0 0 100%;
     color: var(--light);
+    min-width: 80vmin;
+    padding: .5rem;
+    z-index: 2;
+    position: relative;
+    display: none; }
+
+span#displayTxt {
+    z-index: 3;
+    padding: 0;
+    margin: 0 auto;
     font-size: 1.5rem;
     font-weight: lighter;
     letter-spacing: .2rem;
-    text-align: center;
-    justify-self: center;
-    display: none;
-}
+    text-align: center; }
+
+.ready {
+    cursor: url('img/bow-and-arrow-black-th.png'), ne-resize; }
+.wait {
+    cursor: progress; }
+
+.visible {
+    display: flex !important; }
+
+.purple {
+    background: var(--purple); }
+.red {
+    background: var(--red); }
+.orange {
+    background: var(--orange); }
+.yellow {
+    background: var(--yellow);
+    color: var(--blue) !important; }
+.green {
+    background: var(--green); }
+.blue {
+    background: var(--blue); }
 
 footer {
+    flex: 0 0 100%;
+    align-self: flex-end;
+    justify-content: end;
     text-align: end;
     font-size: 80%;
     font-weight: 200;
     padding: 0 1rem;
-    height: 2rem;
-}
+    height: 2rem; }

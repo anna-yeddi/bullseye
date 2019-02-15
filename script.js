@@ -1,86 +1,101 @@
-let display = document.querySelector('#display'),
+let body = document.querySelector('body'),
     bullseye = document.querySelector('#rainbow'),
-    body = document.querySelector('body'),
-    drink = 0;
+    display = document.querySelector('#display'),
+    displayTxt = document.querySelector('#displayTxt');
 
 init();
 
 function init() {
+    bullseye.removeEventListener('click', init);
     bullseye.addEventListener('click', shootPromise);
-    start();
-}
-function shootPromise() {
-    shoot()
-        .then(win)
-        .catch(loose)
-        .then(reset)
+    display.classList.remove('visible', 'yellow');
+    bullseye.classList.add('ready');
 }
 
-function start() {
-    body.removeEventListener('click', init);
-    display.style.display = 'none';
-    body.classList.add('ready');
-    console.log('init launched');
+async function shootPromise() {
+    shoot();
+    try {
+        await shootResult();
+        try {
+            await win();
+            await buyBeer();
+        }
+        catch (reject) {
+            await giveMoney();
+        }
+    }
+    catch (reject) {
+        await loose();
+    }
+    await reset();
 }
 
 function shoot() {
     bullseye.removeEventListener('click', shootPromise);
-    display.style.display = 'flex';
-    display.textContent = 'The arrow is on its way...';
-    body.classList.remove('ready');
+    bullseye.classList.remove('ready');
     body.classList.add('wait');
-    console.log('shoot fired');
+    display.classList.add('visible');
+    display.classList.add('purple');
+    displayTxt.textContent = 'The arrow is on its way...';
+}
 
-    let promise = new Promise(function(resolve, reject) {
+async function shootResult() {
+    await new Promise((resolve, reject) => {
         setTimeout(() => {
             Math.random() > .5 ? resolve() : reject();
             body.classList.remove('wait');
         }, 3000);
     });
-
-    return promise;
 }
 
-function win() {
-    display.textContent = 'You hit the target!..';
-    console.log('Lucky you!');
-    setTimeout(() => {
-        display.textContent = 'You won';
-        drink = Math.random() * 1000 % 2;
-        (drink >= 1) ? buyBeer() : giveMoney();
-        console.log('win timeout');
-    }, 1500);
+async function win() {
+    display.classList.remove('purple');
+    display.classList.add('green');
+    displayTxt.textContent = 'You hit the target!..';
+    console.log('Win. Lucky you!');
+    
+    await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            display.classList.remove('green');
+            display.classList.add('blue');
+            displayTxt.textContent = 'You won';
+
+            const drink = Math.random() * 1000 % 2;
+            drink >=1 ? resolve() : reject();
+        }, 1500);
+    });
 }
 
 function buyBeer() {
-    display.textContent = `${display.textContent} (and got an ice cream)`;
-    console.log('beer');
+    displayTxt.textContent += ' (and got an ice cream)';
 }
 
 function giveMoney() {
-    display.textContent = `${display.textContent} (and got some cash)`;
-    console.log('money');
+    displayTxt.textContent += ' (and got a cash prize)';
 }
 
-function loose() {
-    display.textContent = 'Sorry, you missed the target!';
-    console.error('missed =((');
-    setTimeout(() => {
-        display.textContent = 'You lost... Try again?';
-        console.log('loose timeout');
-    }, 1500);
+async function loose() {
+    display.classList.remove('purple');
+    display.classList.add('red');
+    displayTxt.textContent = 'Sorry, you missed the target!';
+    console.log('missed =((');
+
+    await new Promise ((resolve, reject) => setTimeout(resolve, 2000));
+    
+    display.classList.remove('red');
+    display.classList.add('orange');
+    displayTxt.textContent = 'You lost, but there\'s always a second chance';
 }
 
-function reset() {
-    drink = '';
+async function reset() {
     body.classList.remove('ready');
-    console.log('reset initiated');
-    setTimeout(() => {
-        display.textContent = 'Click to give it another shot';
-        body.addEventListener('click', init);
-        console.log('reset/timeout created!');
-    }, 1500);
-    console.log('reset finished');
+
+    await new Promise ((resolve, reject) => setTimeout(resolve, 2000));
+    
+    display.classList.remove('blue', 'orange');
+    display.classList.add('yellow');
+    displayTxt.textContent = 'Would you like to give it another shot?';
+    bullseye.addEventListener('click', init);
 }
 
 

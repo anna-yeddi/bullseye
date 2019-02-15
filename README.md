@@ -2,8 +2,13 @@
 
 Sandbox to train refactoring the code with "callback hell" to cleaner one using Promises of ES6 standart.
 
+## Updates 2/15/2019:
+- ES2015 modernized to ES2017 (Async functions added);
+- Responsive layout ensured;
+- Improved logic of the game.
+
 ## Updates 2/12/2019:
-- JS(ES5) modernized to ECMA2015 (Promises added);
+- ES5 modernized to ES2015 (Promises added);
 - Copyright script and styles updated.
 
 ## Features:
